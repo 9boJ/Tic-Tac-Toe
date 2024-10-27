@@ -1,0 +1,21 @@
+✓ - add this to every completed task so we don't lose track of what needs to be done
+Checklist:
+1. Main menu screen.
+2. Player vs Player segment (tic tac toe part).
+3. Create a settings menu.
+4. Set up the Player vs Computer segment (just add the tic tac toe part).
+5. create some form of ai and add it to the player vs Computer and see if that works.
+6. Create the easy/medium/hard ai's.
+7. Add the easy/medium/hard to the settings menu.
+8. create a ai variable that equals the easy/medium/hard ai's based on what was clicked in the settings.
+   eg. if easymode() == True:
+          global computer
+          computer = easymode()
+      #If easy mode is clicked the button will make easymode() equal true and the other modes equal false.    
+9. Add some cool features at this point:
+   - Let player choose if they want to be X or O
+   - Let player choose theme in settings menu
+   - Add background music
+   - REMATCH BUTTON (must need)
+   - Add a dope ass picture of Vegeta with a chain on or a picture of goku wearing supreme
+   - Add more ideas if you want...
