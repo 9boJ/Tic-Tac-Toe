@@ -17,7 +17,7 @@ def open_settings(): #do settings here (we will make alot of variables global he
 
 def open_PvP_screen(): #this is the player vs player part
 
-    for widget in root.winfo_children():
+    for widget in root.winfo_children(): #put this at the start of every new screen so it deletes the old screen btw if your making a new screen
         widget.destroy()
     
     label = tk.Label(root, text="Game Screen")
@@ -25,12 +25,12 @@ def open_PvP_screen(): #this is the player vs player part
 
     back_button()
 
-def open_PvC_screen():
+def open_PvC_screen(): #do this after finishing the player vs player
     pass
 
 def open_main_menu(): #This is a button to return to settings 
 
-    for widget in root.winfo_children():
+    for widget in root.winfo_children(): #put this at the start of every new screen so it deletes the old screen btw if your making a new screen
         widget.destroy()
 
     PvP_button = tk.Button(root, text="Player vs Player", command=open_PvP_screen)
