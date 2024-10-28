@@ -1,5 +1,8 @@
 import tkinter as tk
 
+def winner():
+    pass
+
 def back_button(): #A back button function that goes in every screen to return to main menu
     back_button = tk.Button(root, text="Back to Main Menu", command=open_main_menu)
     back_button.pack(padx=0, pady=20)
