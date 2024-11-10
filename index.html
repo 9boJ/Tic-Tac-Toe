@@ -3,10 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tic Tac Toe</title>
+    <!-- PyScript CSS -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.10.2/core.css">
+    <!-- This script tag bootstraps PyScript -->
+    <script type="module" src="https://pyscript.net/releases/2024.10.2/core.js"></script>
 </head>
 <body>
     <h1>what is good web</h1>
+    <py-script>
+from tkinter import *
+
+def clied(button,buttonId):
+    global playTurn, lst, butlst
+    if playTurn == 1:
+        button.config(text="x", state = "disabled")
+        playTurn = 0
+    elif playTurn == 0:
+        button.config(text="o", state = "disabled")
+        playTurn = 1
+    lst[buttonId] = button.cget("text")
+    print(lst)
     
+    if lst[0] == "o" and lst[1] == "o" and lst[2] == "o":
+        print("win")
+        for i in butlst:
+            i.destroy()
+
+    if lst[3] == "o" and lst[4] == "o" and lst[5] == "o":
+        print("win")
+        for i in butlst:
+            i.destroy()
+
+    if lst[6] == "o" and lst[7] == "o" and lst[8] == "o":
+        print("win")
+        for i in butlst:
+            i.destroy()
+
+
+
+    if lst[0] == "o" and lst[4] == "o" and lst[8] == "o":
+        print("win")
+        for i in butlst:
+            i.destroy()
+
+    if lst[6] == "o" and lst[4] == "o" and lst[2] == "o":
+        print("win")
+        for i in butlst:
+            i.destroy()
+
+
+
+    if lst[0] == "o" and lst[3] == "o" and lst[6] == "o":
+        print("win")
+        for i in butlst:
+            i.destroy()
+
+    if lst[1] == "o" and lst[4] == "o" and lst[7] == "o":
+        print("win")
+        for i in butlst:
+            i.destroy()
+
+    if lst[2] == "o" and lst[5] == "o" and lst[8] == "o":
+        print("win")
+        for i in butlst:
+            i.destroy()
+
+playTurn = 0
+
+lst = ["0","1","2",
+       "3","4","5",
+       "6","7","8"]
+
+root = Tk() # Initialize the main window
+root.title("TicTacToe Player VS Player") # Add a title to the root "TicTacToe Player VS Player"
+root.geometry("500x500")  # Size of the window 
+
+
+for i in range(3): # Configure rows and columns to expand with the window
+    root.grid_columnconfigure(i, weight=1)
+    root.grid_rowconfigure(i, weight=1)
+
+# Create buttons for row 1
+a1 = Button(root, command=lambda: clied(a1,0))
+b1 = Button(root, command=lambda: clied(b1,1))
+c1 = Button(root, command=lambda: clied(c1,2))
+
+buttonRowi= [a1,b1,c1] # Holdes the buttons that need to be placed 
+for i in range(3): # Place buttons in the grid with sticky directions for expansion
+    buttonRowi[i].grid(row=0, column=i, sticky="nsew", padx=5, pady=5)
+
+# Create buttons for row 2 
+a2 = Button(root, command=lambda: clied(a2,3))
+b2 = Button(root, command=lambda: clied(b2,4))
+c2 = Button(root, command=lambda: clied(c2,5))
+
+buttonRowii= [a2,b2,c2] # Holdes the buttons that need to be placed 
+for i in range(3): # Place buttons in the grid with sticky directions for expansion
+    buttonRowii[i].grid(row=1, column=i, sticky="nsew", padx=5, pady=5)
+
+# Create buttons for row 3
+a3 = Button(root, command=lambda: clied(a3,6))
+b3 = Button(root, command=lambda: clied(b3,7))
+c3 = Button(root, command=lambda: clied(c3,8))
+
+
+buttonRowiii= [a3,b3,c3] # Holdes the buttons that need to be placed 
+for i in range(3): # Place buttons in the grid with sticky directions for expansion
+    buttonRowiii[i].grid(row=2, column=i, sticky="nsew", padx=5, pady=5)
+
+butlst = [a1,b1,c1,
+          a2,b2,c2,
+          a3,b3,c3
+          ]
+
+# Keeps the root open
+root.mainloop()
+    
+
+    </py-script>
+
 </body>
 </html>
