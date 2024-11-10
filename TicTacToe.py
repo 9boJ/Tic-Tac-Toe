@@ -48,22 +48,19 @@ def open_main_menu(): #This is a button to return to settings
     for widget in root.winfo_children(): #put this at the start of every new screen so it deletes the old screen btw if your making a new screen
         widget.destroy()
 
+    img = PhotoImage(file = "Preview.png")
+    labelImg = Label(root, image=img)
+    labelImg.pack()
     PvP_button = Button(root, text="Player vs Player", command=open_PvP_screen)
-    PvP_button.pack(pady=100)
+    PvP_button.pack()
 
     PvC_button = Button(root, text="Player vs Computer", command=open_PvC_screen)
-    PvC_button.pack(padx=0, pady=100)
-    '''I am having trouble placing the button in the cords I want so I give up and will leave this for another time'''
-    PvC_button.place(x=250)
-
+    PvC_button.pack()
 
 root = Tk()
-root.geometry("600x500")
+root.geometry("500x500")
 root.title("Tic Tac Toe")
 
-for i in range(3): # Configure rows and columns to expand with the window
-    root.grid_columnconfigure(i, weight=1)
-    root.grid_rowconfigure(i, weight=1)
 
 open_main_menu()
 
