@@ -67,13 +67,22 @@ def ready(player,userName):
         statusPlayer2 = True # Sets the staus of play 2 to ready
     
     if statusPlayer1 and statusPlayer2:
-        pvp_game_screen()
+        for widget in root.winfo_children(): # Remove all the current widgets on the screen
+            widget.destroy()
+    
+        titleText = Label(root, text = "X or O")
+        titleText.pack()
+    
+        for i in range(2):
+            root.columnconfigure(i,weight=1)
 
-def pvp_game_screen():
-    for widget in root.winfo_children(): # Remove all the current widgets on the screen
-        widget.destroy()
+        pickPlayer = Label(root, text = "Who wnates to go first ")
+        pickPlayer.pack()
+        
     
     back_button()
+
+    
 
 def open_PvC_screen(): #do this after finishing the player vs player
     pass
