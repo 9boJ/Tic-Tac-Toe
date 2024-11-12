@@ -269,11 +269,26 @@ def open_main_menu(): #This is a button to return to settings
     for widget in root.winfo_children(): #put this at the start of every new screen so it deletes the old screen btw if your making a new screen
         widget.destroy()
 
-    PvP_button = Button(root, text="Player vs Player", command=open_PvP_screen)
-    PvP_button.place(relx=0.5, rely=0.33, anchor="center")
+    title_screen = Label(root, text="TIC TAC TOE", height=5, font=("arial", 18))
+    title_screen.pack(fill="both", expand=True)
 
-    PvC_button = Button(root, text="Player vs Computer", command=open_PvC_screen)
-    PvC_button.place(relx=0.5, rely=0.4, anchor="center")
+    buttonFrame = Frame(root)
+    buttonFrame.columnconfigure(0, weight=1)
+    buttonFrame.columnconfigure(1, weight=1)
+    buttonFrame.columnconfigure(2, weight=1)
+
+    PvP_button = Button(buttonFrame, text="Player vs Player", command=open_PvP_screen)
+    PvP_button.grid(row=0, column=1, sticky="NESW")
+    divider1 = Label(buttonFrame)
+    divider1.grid(row=1, column=1, sticky="NESW")
+    PvC_button = Button(buttonFrame, text="Player vs Computer", command=open_PvC_screen)
+    PvC_button.grid(row=2, column=1, sticky="NESW")
+    divider2 = Label(buttonFrame)
+    divider2.grid(row=3, column=1, sticky="NESW")
+    settingsBtn = Button(buttonFrame, text="Settings", command=open_settings)
+    settingsBtn.grid(row=4, column=1, sticky="NESW")
+
+    buttonFrame.pack(expand=True, fill="both")
 
 root = Tk()
 root.geometry("500x500")
