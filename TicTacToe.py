@@ -111,7 +111,7 @@ def trunXorO(player):
     titleText = Label(root, text = "X or O") # Showes "X or O"
     titleText.grid(row=4, column=1, columnspan=1, padx=10, pady=10)# Places the label in the midly
 
-    firstplayer = Button(root,text=player)  # Shows whice player is going firts 
+    firstplayer = Label(root,text=f"{player} goes first")  # Shows which player is going firts 
     firstplayer.grid(row=5, column=1, padx=10, pady=10) # Places the button in the midly
 
     x = Button(root,text="X", command=lambda: PvP_Game(firstplayer.cget("text"),"X")) # Button if the player wants to be "X"
