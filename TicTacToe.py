@@ -75,7 +75,7 @@ def ready(player,userName):
         for i in range(2):
             root.columnconfigure(i,weight=1) # Sets the window to 2 columns 
 
-        pickPlayer = Label(root, text = "Who wnates to go first") # Title that shows "Who wnates to go first"
+        pickPlayer = Label(root, text = "Who wants to go first") # Title that shows "Who wnates to go first"
         pickPlayer.grid(row=1, column=1, columnspan=1, padx=10, pady=10) # places the title in midly to the top
         
         # Player can picke who wnates to first or randomly
