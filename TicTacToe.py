@@ -3,6 +3,11 @@ from random import *
 
 aplz = 0
 
+'''These are the variables for the Themes that you will need to add to the buttons'''
+backGround = "white" #You change this in buttons by using bg="White"
+textColour = "Black" #You change this by using fg="Black"
+highLight = "Black" #or grey idk what colour they use but you change this by using highlightbackground="gray"/"black"
+
 def winner():
     pass
 
