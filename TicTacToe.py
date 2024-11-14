@@ -1,6 +1,7 @@
 from tkinter import * 
 from random import *
 
+aplz = 0
 def winner():
     pass
 
@@ -10,7 +11,6 @@ def back_button():
     backButton = Button(root, text="Back to Main Menu", command=open_main_menu)
     backButton.place(relx=0.5, rely=0.5, anchor="center")
 
-
 def easy_mode(): #Build the easy ai here
     pass
 def medium_mode(): #Build medium ai here
@@ -18,6 +18,7 @@ def medium_mode(): #Build medium ai here
 def hard_mode(): #Build Hard ai here
     pass
 
+    
 def open_settings(): #do settings here (we will make alot of variables global here so they work outside the function)
     pass
 
@@ -111,7 +112,7 @@ def trunXorO(player):
     titleText = Label(root, text = "X or O") # Showes "X or O"
     titleText.grid(row=4, column=1, columnspan=1, padx=10, pady=10)# Places the label in the midly
 
-    firstplayer = Label(root,text=f"{player} goes first")  # Shows which player is going firts 
+    firstplayer = Button(root,text=player)  # Shows whice player is going firts 
     firstplayer.grid(row=5, column=1, padx=10, pady=10) # Places the button in the midly
 
     x = Button(root,text="X", command=lambda: PvP_Game(firstplayer.cget("text"),"X")) # Button if the player wants to be "X"
@@ -261,16 +262,48 @@ def clied(button,buttonId):
             for widget in root.winfo_children(): # Remove all the current widgets on the screen
                 widget.destroy()
 
+def restvar():
+    global play1Name, play1ready, play2Name, play2ready, userName1, userName2, randomtrun, playerturn1, playerturn2, playTurn
+
+    play1Name.place(x = 0, y = 0)
+    play1Name = None 
+    play1ready.place(x = 0, y = 0)
+    play1ready = None
+    play2Name.place(x = 0, y = 0)
+    play2Name = None
+    play2ready.place(x = 0, y = 0)
+    play2ready= None
+    userName1.place(x = 0, y = 0)
+    userName1 = None
+    userName2.place(x = 0, y = 0)
+    userName2 = None
+    randomtrun.place(x = 0, y = 0)
+    randomtrun = None
+    playerturn1.place(x = 0, y = 0)
+    playerturn1 = None
+    playerturn2.place(x = 0, y = 0)
+    playerturn2 = None
+    playTurn.place(x = 0, y = 0)
+    playTurn= None
+    
 def open_PvC_screen(): #do this after finishing the player vs player
     pass
 
 def open_main_menu(): #This is a button to return to settings 
 
-    for widget in root.winfo_children(): #put this at the start of every new screen so it deletes the old screen btw if your making a new screen
+     #Clear existing widgets from the screen
+    for widget in root.winfo_children():
         widget.destroy()
+    
+    # Reset any column and row configurations
+    for i in range(3):  # Adjust range if more columns/rows are used
+        root.grid_columnconfigure(i, weight=0)  # Reset column weight
+        root.grid_rowconfigure(i, weight=0)     # Reset row weight
+
 
     title_screen = Label(root, text="TIC TAC TOE", height=5, font=("arial", 18))
     title_screen.pack(fill="both", expand=True)
+
 
     buttonFrame = Frame(root)
     buttonFrame.columnconfigure(0, weight=1)
