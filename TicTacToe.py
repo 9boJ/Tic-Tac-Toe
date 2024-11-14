@@ -2,6 +2,7 @@ from tkinter import *
 from random import *
 
 aplz = 0
+
 def winner():
     pass
 
@@ -11,14 +12,6 @@ def back_button():
     backButton = Button(root, text="Back to Main Menu", command=open_main_menu)
     backButton.place(relx=0.5, rely=0.5, anchor="center")
 
-def easy_mode(): #Build the easy ai here
-    pass
-def medium_mode(): #Build medium ai here
-    pass
-def hard_mode(): #Build Hard ai here
-    pass
-
-    
 def open_settings(): #do settings here (we will make alot of variables global here so they work outside the function)
     pass
 
@@ -285,25 +278,204 @@ def restvar():
     playerturn2 = None
     playTurn.place(x = 0, y = 0)
     playTurn= None
+
+"                 Player vs Computer starts here                "  
+
+board = [" " for _ in range(9)] #just a for loop to build the buttons for the game board
+buttons = [] #this is to update the button text and to also disable them afterwards
+current_turn = "Player" #Tracks whos turn it is
+difficulty = None #This is just a global variable that is used to set the difficulty 
+turnLabel = None #This is also a global variable just to display who's turn it is
+
+def reset_game_state(): #This is for reseting the game
+    global board, buttons, current_turn, difficulty, turnLabel
+    board = [" " for _ in range(9)] #reseting the board to it initial state
+    buttons = [] #when reseting the board we also have to reset our buttons
+    current_turn = "Player" #reset the current players turn to who ever is playing
+    difficulty = None #have to reset the difficulty to nothing but automatically changes to whatever was chosen depending on what the player picked
+    turnLabel = None #Same thing as the difficulty
+
+def check_winner(symbol):
+    win_conditions = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], #These are row win conditions 
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], #These are coloumn win conditions 
+        [0, 4, 8], [2, 4, 6]             #These are the diagonal win conditions
+    ]
+    for condition in win_conditions: 
+        if all(board[i] == symbol for i in condition): #This function is to just go through the win conditions to see if the win confidition contains all the same Character like X or O
+            return True
+    return False
+
+def is_full(): #This function just checks if there are any empty spaces left
+    return " " not in board #If it returns True that means no win conditions were met and the result is a tie
+
+def find_best_move(symbol): #This function was made for the Hard mode of the Computer and takes both parameters "X" and "O"
+    for i in range(9):
+        if board[i] == " ": #the Computer iterates through the board and tests out the empty spaces
+            board[i] = symbol
+            if check_winner(symbol): #if the resulting space may lead to a win condition it will take that spot for O
+                board[i] = " " 
+                return i
+            board[i] = " " #if the move doesn't result to a win condition it undoes its move then checks the win conditions to "X" to try to block it by switching the symbol parameter to "X"
+    return None 
+
+def update_turnLabel(): #This function is to just update the Text showing who's turn it is
+    turnLabel.config(text=f"{current_turn}'s Turn")
+
+def player_move(index): 
+    global current_turn
+    if board[index] == " " and current_turn == "Player": #First we check if the chosen button is empty and also checks to see if it is the players turn
+        board[index] = "X" #If both requirements are met then it places X on that spot 
+        buttons[index].config(text="X", state="disabled") #Then we disable the button
+
+        if check_winner("X"): #This is to check if the resulting move is a win for the player
+            end_game("Player wins!") 
+        elif is_full():
+            end_game("It's a tie!") #If the resulting move leads to a full board its just a tie
+        else: #If the resulting move did none of those that means there is still stuff that can happen in the game and it switches to the computers turn
+            current_turn = "Computer"
+            update_turnLabel()
+            root.after(500, easyMode if difficulty == "Easy" else hardMode)
+
+def easyMode(): #This is the logic behind the computers easy mode
+    global current_turn
+    if current_turn == "Computer": #It starts by that easy mode only runs when its the computers turn
+        available_moves = []
+        for i in range(len(board)): #the computer loops through the board to check for empty spaces
+            if board[i] == " ":
+                available_moves.append(i)
+        move = choice(available_moves) #It will then pick a random spot from those available spots using the choice function from the import random module 
+        board[move] = "O"
+        buttons[move].config(text="O", state="disabled") #Disables the button once its been used
+
+        if check_winner("O"):  #Same as the player move function we have to check if the computers move results to any of these
+            end_game("Computer wins!")
+        elif is_full():
+            end_game("It's a tie!")
+        else:
+            current_turn = "Player"
+            update_turnLabel()
+
+def hardMode(): #This is the logic behind the hard mode of the computer which trys to go for the win and can also block off the player from winning
+    global current_turn
+    if current_turn == "Computer": #Also ensures that this function only works when its the computers turn  
+        move = find_best_move("O") #This goes back to the find best move function 
+
+        if move is None: #When it can't find a winning move now it checks for X's wining move
+            move = find_best_move("X")
+        
+        if move is None: #if niether is doable it'll just place randomly, it is only possible to beat the computer by forcing it to play a random move
+            available_moves = []
+            for i in range(len(board)): 
+                if board[i] == " ":
+                    available_moves.append(i)
+            move = choice(available_moves)
+        
+        board[move] = "O" #This is just the computer making its move
+        buttons[move].config(text="O", state="disabled") #disables the button afterwards
+
+        if check_winner("O"): #Same as The player move function we need to check if that move meets any win condition or leads to a tie
+            end_game("Computer wins!")
+        elif is_full():
+            end_game("It's a tie!")
+        else:
+            current_turn = "Player"
+            update_turnLabel()
+
+def end_game(result_text):
+    for button in buttons:
+        button.config(state="disabled") #First it will disable all the buttons
+    turnLabel.config(text=result_text) #Then it will change the Label to show who won/if its a tie
+
+    button_frame = Frame(root) #Now it creates a new frame so we can add new buttons
+    button_frame.grid(row=4, column=0, columnspan=3, sticky="nsew")
     
-def open_PvC_screen(): #do this after finishing the player vs player
-    pass
+    play_again_button = Button(button_frame, text="Play Again", command=reset_board) #Adds a play again button
+    play_again_button.grid(row=0, column=0, sticky="nsew")
 
-def open_main_menu(): #This is a button to return to settings 
+    main_menu_button = Button(button_frame, text="Main Menu", command=open_main_menu) #Adds a return to main menu button if you feel like your done with the game
+    main_menu_button.grid(row=0, column=1, sticky="nsew")
 
-     #Clear existing widgets from the screen
+    button_frame.grid_columnconfigure(0, weight=1)
+    button_frame.grid_columnconfigure(1, weight=1)
+
+def reset_board(): 
+    global board, current_turn
+    board = [" " for _ in range(9)] #resets the boards button to be empty
+    current_turn = "Player" #and it resets to who ever started the game first
+    for button in buttons:
+        button.config(text=" ", state="normal") #Enables them
+    update_turnLabel() #and also resets the turn label
+
+def start_pvc_game(selected_difficulty, first_turn):
+    global difficulty, current_turn
+    difficulty = selected_difficulty #This just determines what difficulty was picked 
+    current_turn = first_turn #This is also just to determine who goes first
+    open_game_board()
+
+    if current_turn == "Computer": 
+        root.after(500, easyMode if difficulty == "Easy" else hardMode)
+        #If it was the computers turn first there would be a delay of 500 miliseconds before it starts due to a bug where sometimes the computer would just not play at all and the you would be stuck there
+def open_game_board(): #This is just the UI of the playing board
     for widget in root.winfo_children():
         widget.destroy()
     
-    # Reset any column and row configurations
-    for i in range(3):  # Adjust range if more columns/rows are used
-        root.grid_columnconfigure(i, weight=0)  # Reset column weight
-        root.grid_rowconfigure(i, weight=0)     # Reset row weight
+    global buttons, turnLabel
+    buttons = [] #Restores the buttons list to be empty incase it wasn't already 
 
+    for i in range(3):
+        root.grid_rowconfigure(i, weight=1)
+        root.grid_columnconfigure(i, weight=1)
+
+    for i in range(9): #This is the playing board itsself
+        button = Button(root, text=" ", font=("Arial", 24), width=5, height=2,
+                        command=lambda i=i: player_move(i), fg="Black") 
+        button.grid(row=i // 3, column=i % 3, sticky="nsew")
+        buttons.append(button)
+    
+    turnLabel = Label(root, text="", font=("Arial", 14)) #This is just to show where the turn Label will be displayed
+    turnLabel.grid(row=3, column=0, columnspan=3)
+    update_turnLabel()
+
+def choose_first_turn():
+    for widget in root.winfo_children():
+        widget.destroy()
+
+    Label(root, text="Who will go first?", font=("Arial", 18)).pack(pady=20) #Just a text 
+
+    Button(root, text="Player First", font=("Arial", 12), command=lambda: start_pvc_game(difficulty, "Player")).pack(pady=10) #When either one of these buttons are clicked the start_pvc_game function is called with the difficulty you have chosen from the previous screen
+    Button(root, text="Computer First", font=("Arial", 12), command=lambda: start_pvc_game(difficulty, "Computer")).pack(pady=10)
+
+    Button(root, text="Back to Difficulty Selection", font=("Arial", 10), command=open_PvC_screen).pack(pady=20) #Takes you to the previous screen
+
+def open_PvC_screen(): #This is your initial choice between picking the easy or the hard mode, basically just a UI 
+    for widget in root.winfo_children():
+        widget.destroy()
+
+    Label(root, text="Please pick Difficulty", font=("Arial", 18)).pack(pady=10)
+
+    Button(root, text="Easy Mode", font=("Arial", 12), command=lambda: set_difficulty_and_choose_turn("Easy")).pack(pady=5) #Calls the set difficulty function with your chosen difficulty
+    Button(root, text="Hard Mode", font=("Arial", 12), command=lambda: set_difficulty_and_choose_turn("Hard")).pack(pady=5)
+
+    Button(root, text="Return to Main Menu", font=("Arial", 10), command=open_main_menu).pack(pady=20)
+
+def set_difficulty_and_choose_turn(selected_difficulty):
+    global difficulty
+    difficulty = selected_difficulty #This function is just used to set the difficulty 
+    choose_first_turn()
+
+def open_main_menu():
+    for widget in root.winfo_children():
+        widget.destroy()
+    
+    for i in range(3):
+        root.grid_columnconfigure(i, weight=0)
+        root.grid_rowconfigure(i, weight=0)
+
+    reset_game_state()
 
     title_screen = Label(root, text="TIC TAC TOE", height=5, font=("arial", 18))
     title_screen.pack(fill="both", expand=True)
-
 
     buttonFrame = Frame(root)
     buttonFrame.columnconfigure(0, weight=1)
