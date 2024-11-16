@@ -1,28 +1,20 @@
 from tkinter import * 
 from random import *
 
-aplz = 0
-
 '''These are the variables for the Themes that you will need to add to the buttons'''
 backGround = "white" #You change this in buttons by using bg="White"
 textColour = "Black" #You change this by using fg="Black"
 highLight = "Black" #or grey idk what colour they use but you change this by using highlightbackground="gray"/"black"
 
-def winner():
-    pass
-
 def back_button(): 
     """A back button function that goes in every screen to return to main menu"""
-    global backButton
-    backButton = Button(root, text="Back to Main Menu", command=open_main_menu)
+    global backButton, textColour
+    backButton = Button(root, text="Back to Main Menu", fg = textColour, command=open_main_menu)
     backButton.place(relx=0.5, rely=0.5, anchor="center")
-
-def open_settings(): #do settings here (we will make alot of variables global here so they work outside the function)
-    pass
 
 def open_PvP_screen(): 
     """Makes a new screen when "Player vs Player" is cliked"""    
-    global play1Name, play1ready, play2Name, play2ready, statusPlayer1, statusPlayer2
+    global play1Name, play1ready, play2Name, play2ready, statusPlayer1, statusPlayer2, textColour
 
     #put this at the start of every new screen so it deletes the old screen btw if your making a new screen
     for widget in root.winfo_children(): # Remove all the current widgets on the screen
@@ -34,18 +26,18 @@ def open_PvP_screen():
     statusPlayer1 = FALSE # Status of Player 1 "Not ready"
     statusPlayer2 = FALSE # Status of Player 2 "Not ready"
 
-    play1Name = Entry(root) # Input box for player 1's username
+    play1Name = Entry(root, fg = textColour) # Input box for player 1's username
     play1Name.grid(row=0, column=0, padx=10, pady=10) # sets the box in row 0 and column 0 so all the wight for user name can be in a line 
     play1Name.insert(0,"Player 1") # Example username 
     
-    play1ready = Button(root,text="Ready!", command= lambda: ready("Player 1",play1Name.get())) # When the user is ready the text in "play1Name" is pass to "reday()"
+    play1ready = Button(root,text="Ready!", command= lambda: ready("Player 1",play1Name.get()), fg = textColour) # When the user is ready the text in "play1Name" is pass to "reday()"
     play1ready.grid(row=0, column=1, padx=10, pady=10) # sets the "Ready !" button in row 0 and column 1 so all the wight for user name can be in a line
 
-    play2Name = Entry(root,) # Input box for player 2's username
+    play2Name = Entry(root, fg = textColour) # Input box for player 2's username
     play2Name.grid(row=0, column=2, padx=10, pady=10) # sets the box in row 0 and column 2 so all the wight for user name can be in a line
     play2Name.insert(0,"Player 2")# Example username
 
-    play2ready = Button(root, text="Ready!", command= lambda: ready("Player 2",play2Name.get())) # When the user is ready the text in "play2Name" is pass to "reday()"
+    play2ready = Button(root, text="Ready!", command= lambda: ready("Player 2",play2Name.get()), fg = textColour) # When the user is ready the text in "play2Name" is pass to "reday()"
     play2ready.grid(row=0, column=3, padx=10, pady=10)
 
     back_button()
@@ -54,7 +46,7 @@ def ready(player,userName):
     """When a user clicks a "Ready" button, check which play is it and give thme a user name. After the username is given them the "Ready" 
         buttons and inputs are disabled.
     """
-    global play1Name, play1ready, userName1, userName2, statusPlayer1, statusPlayer2, playerturn1, playerturn2, randomtrun
+    global play1Name, play1ready, userName1, userName2, statusPlayer1, statusPlayer2, playerturn1, playerturn2, randomtrun, textColour
     
     if player == "Player 1":
         userName1 = userName # Sets the user name for player 1  
@@ -74,17 +66,17 @@ def ready(player,userName):
         for i in range(2):
             root.columnconfigure(i,weight=1) # Sets the window to 2 columns 
 
-        pickPlayer = Label(root, text = "Who wants to go first") # Title that shows "Who wnates to go first"
+        pickPlayer = Label(root, text = "Who wants to go first", fg = textColour) # Title that shows "Who wnates to go first"
         pickPlayer.grid(row=1, column=1, columnspan=1, padx=10, pady=10) # places the title in midly to the top
         
         # Player can picke who wnates to first or randomly
-        playerturn1 = Button(root,text=userName1, command=lambda: trunXorO(userName1)) # Player 1 can go first
+        playerturn1 = Button(root,text=userName1, command=lambda: trunXorO(userName1), fg = textColour) # Player 1 can go first
         playerturn1.grid(row=2, column=0, padx=10, pady=10) # places the button to the right 
 
-        playerturn2 = Button(root,text=userName2, command=lambda: trunXorO(userName2)) # Player 1 can go first
+        playerturn2 = Button(root,text=userName2, command=lambda: trunXorO(userName2), fg = textColour) # Player 1 can go first
         playerturn2.grid(row=2, column=2, padx=10, pady=10) # places the button to the left
 
-        randomtrun = Button(root,text="Random",command=lambda: trunXorO("Random")) # who  go first can be random
+        randomtrun = Button(root,text="Random",command=lambda: trunXorO("Random"), fg = textColour) # who  go first can be random
         randomtrun.grid(row=3, column=1, padx=10, pady=10) # places the button in the midly
 
     back_button() # button that goes to main screen
@@ -124,7 +116,7 @@ def trunXorO(player):
 
 def PvP_Game(player,xoro):
     """ The Game Tic Tac Toe """
-    global userName1, userName2, playTurn, lst
+    global userName1, userName2, playTurn, lst, turnsPlayed, textColour
 
     for widget in root.winfo_children(): # Remove all the current widgets on the screen
         widget.destroy()
@@ -157,57 +149,58 @@ def PvP_Game(player,xoro):
     lst = ["0","1","2", # For keep track where "X" and "O" are placed
        "3","4","5",
        "6","7","8"]
+    turnsPlayed = 0 # How many truns have been played
 
     root.title("TicTacToe Player VS Player") # Add a title to the root "TicTacToe Player VS Player"
-    root.geometry("500x500")  # Size of the window 
 
     for i in range(3): # Configure rows and columns to expand with the window
         root.grid_columnconfigure(i, weight=1)
         root.grid_rowconfigure(i, weight=1)
     
     # Create buttons for row 1
-    a1 = Button(root, command=lambda: clied(a1,0))
-    b1 = Button(root, command=lambda: clied(b1,1))
-    c1 = Button(root, command=lambda: clied(c1,2))
+    a1 = Button(root, command=lambda: clicked(a1,0), fg = textColour)
+    b1 = Button(root, command=lambda: clicked(b1,1), fg = textColour)
+    c1 = Button(root, command=lambda: clicked(c1,2), fg = textColour)
 
     buttonRowi= [a1,b1,c1] # Holdes the buttons that need to be placed 
     for i in range(3): # Place buttons in the grid with sticky directions for expansion
         buttonRowi[i].grid(row=0, column=i, sticky="nsew", padx=5, pady=5)
 
     # Create buttons for row 2 
-    a2 = Button(root, command=lambda: clied(a2,3))
-    b2 = Button(root, command=lambda: clied(b2,4))
-    c2 = Button(root, command=lambda: clied(c2,5))
+    a2 = Button(root, command=lambda: clicked(a2,3), fg = textColour)
+    b2 = Button(root, command=lambda: clicked(b2,4), fg = textColour)
+    c2 = Button(root, command=lambda: clicked(c2,5), fg = textColour)
 
     buttonRowii= [a2,b2,c2] # Holdes the buttons that need to be placed 
     for i in range(3): # Place buttons in the grid with sticky directions for expansion
         buttonRowii[i].grid(row=1, column=i, sticky="nsew", padx=5, pady=5)
 
     # Create buttons for row 3
-    a3 = Button(root, command=lambda: clied(a3,6))
-    b3 = Button(root, command=lambda: clied(b3,7))
-    c3 = Button(root, command=lambda: clied(c3,8))
+    a3 = Button(root, command=lambda: clicked(a3,6), fg = textColour)
+    b3 = Button(root, command=lambda: clicked(b3,7), fg = textColour)
+    c3 = Button(root, command=lambda: clicked(c3,8), fg = textColour)
 
     buttonRowiii= [a3,b3,c3] # Holdes the buttons that need to be placed 
     for i in range(3): # Place buttons in the grid with sticky directions for expansion
         buttonRowiii[i].grid(row=2, column=i, sticky="nsew", padx=5, pady=5)
     
-    showPlayer1 = Button(root, text=player1) # Shows the play name of user 1
+    showPlayer1 = Button(root, text=player1, fg = textColour) # Shows the play name of user 1
     showPlayer1.grid(row=4, column=0, sticky="nsew", padx=5, pady=5) # Places the button at the bottom of row 1
-    showPlayer2 = Button(root, text=player2) # Shows the play name of user 2
+    showPlayer2 = Button(root, text=player2, fg = textColour) # Shows the play name of user 2
     showPlayer2.grid(row=4, column=2, sticky="nsew", padx=5, pady=5) # Places the button at the bottom of row 3
 
-    showPlayer1Shap = Button(root, text=player1Shap) # Shows the play is "X" or "O" of user 1
+    showPlayer1Shap = Button(root, text=player1Shap, fg = textColour) # Shows the play is "X" or "O" of user 1
     showPlayer1Shap.grid(row=5, column=0, sticky="nsew", padx=5, pady=5) # Places the button at the bottom of row 1
-    showPlayer2Shap = Button(root, text=player2Shap) # Shows the play is "X" or "O" of user 2
+    showPlayer2Shap = Button(root, text=player2Shap, fg = textColour) # Shows the play is "X" or "O" of user 2
     showPlayer2Shap.grid(row=5, column=2, sticky="nsew", padx=5, pady=5) # Places the button at the bottom of row 1
-
+    
     back_button() # Button that goes to main screen
     backButton.grid(row=5, column=1, sticky="nsew", padx=5, pady=5) # Places the button in the midly but lower
+    backButton.config(fg = textColour)
 
-def clied(button,buttonId):
+def clicked(button,buttonId):
     """When one of box is cliked chagnes it the player turn and check for winer"""
-    global playTurn, lst
+    global playTurn, lst, turnsPlayed, textColour
     
     if playTurn == 1: # If the first paly is "X" it plces a "X" where the player cliked and disabled that box
         button.config(text="X", state = "disabled")
@@ -217,73 +210,85 @@ def clied(button,buttonId):
         playTurn = 1 # Chagnes the turn
     
     lst[buttonId] = button.cget("text") # Keep the track of where the "X" and "O" are plcesd
+
+    turnsPlayed = turnsPlayed + 1 # Adds one "turnsPlayed" to keep trck of many turn have been played
     
     xoro = ["X","O"] # Shapes "X" or "O"
-    for i in xoro: # Check for winer
+    
+    for i in xoro: 
+        """Checks for winer"""
         if lst[0] == i and lst[1] == i and lst[2] == i: # Check for winer in row 1 
-            print("win")
-            for widget in root.winfo_children(): # Remove all the current widgets on the screen
-                widget.destroy()
+            if i == "X":
+                winer("X") 
+            elif i == "O":
+                winer("O")
+        elif lst[3] == i and lst[4] == i and lst[5] == i: # Check for winer in row 2
+            if i == "X":
+                winer("X")
+            elif i == "O":
+                winer("O")
+        elif lst[6] == i and lst[7] == i and lst[8] == i: # Check for winer in row 3
+            if i == "X":
+                winer("X")
+            elif i == "O":
+                winer("O")
+        elif lst[0] == i and lst[4] == i and lst[8] == i: # Check for winer diagonal
+            if i == "X":
+                winer("X")
+            elif i == "O":
+                winer("O")
+        elif lst[6] == i and lst[4] == i and lst[2] == i: # Check for winer diagonal
+            if i == "X":
+                winer("X")
+            elif i == "O":
+                winer("O")
+        elif lst[0] == i and lst[3] == i and lst[6] == i: # Check for winer in column 1 
+            if i == "X":
+                winer("X")
+            elif i == "O":
+                winer("O")
+        elif lst[1] == i and lst[4] == i and lst[7] == i: # Check for winer in column 2
+            if i == "X":
+                winer("X")
+            elif i == "O":
+                winer("O")
+        elif lst[2] == i and lst[5] == i and lst[8] == i: # Check for winer in column 3
+            if i == "X":
+                winer("X")
+            elif i == "O":
+                winer("O")
+        elif turnsPlayed == 9:
+            winer("No winers")
 
-        if lst[3] == i and lst[4] == i and lst[5] == i: # Check for winer in row 2
-            print("win")
-            for widget in root.winfo_children(): # Remove all the current widgets on the screen
-                widget.destroy()
+def winer(player):
+    """ When one of the players wins it will Congratulate the player """
 
-        if lst[6] == i and lst[7] == i and lst[8] == i: # Check for winer in row 3
-            print("win")
-            for widget in root.winfo_children(): # Remove all the current widgets on the screen
-                widget.destroy()
+    for widget in root.winfo_children(): # Remove all the current widgets on the screen
+        widget.destroy()
 
-        if lst[0] == i and lst[4] == i and lst[8] == i: # Check for winer diagonal
-            print("win")
-            for widget in root.winfo_children(): # Remove all the current widgets on the screen
-                widget.destroy()
+    if player == "No winers":
+        
+        textNowins = Label(root, text="No Winners", fg = textColour)
+        textNowins.place(relx=0.5, rely=0.5, anchor="center")  # Slightly above the center
 
-        if lst[6] == i and lst[4] == i and lst[2] == i: # Check for winer diagonal
-            print("win")
-            for widget in root.winfo_children(): # Remove all the current widgets on the screen
-                widget.destroy()
+        textGoogluck = Label(root, text="Good luck next time", fg = textColour)
+        textGoogluck.place(relx=0.5, rely=0.55, anchor="center")
+    elif player == "X" or player == "O":
 
-        if lst[0] == i and lst[3] == i and lst[6] == i: # Check for winer in column 1 
-            print("win")
-            for widget in root.winfo_children(): # Remove all the current widgets on the screen
-                widget.destroy()
+        winerPlayer = Label(root, text=player, fg = textColour)
+        winerPlayer.place(relx=0.5, rely=0.45, anchor="center")  # Slightly above the center
 
-        if lst[1] == i and lst[4] == i and lst[7] == i: # Check for winer in column 2
-            print("win")
-            for widget in root.winfo_children(): # Remove all the current widgets on the screen
-                widget.destroy()
+        textIs = Label(root, text="Is", fg = textColour)
+        textIs.place(relx=0.5, rely=0.5, anchor="center")  # Centered vertically
 
-        if lst[2] == i and lst[5] == i and lst[8] == i: # Check for winer in column 3
-            print("win")
-            for widget in root.winfo_children(): # Remove all the current widgets on the screen
-                widget.destroy()
+        textWiner = Label(root, text="Winner", fg = textColour)
+        textWiner.place(relx=0.5, rely=0.55, anchor="center")  # Slightly below the center
 
-def restvar():
-    global play1Name, play1ready, play2Name, play2ready, userName1, userName2, randomtrun, playerturn1, playerturn2, playTurn
+        congrauText = Label(root, text="Congratulations!", fg = textColour)
+        congrauText.place(relx=0.5, rely=0.6, anchor="center")
 
-    play1Name.place(x = 0, y = 0)
-    play1Name = None 
-    play1ready.place(x = 0, y = 0)
-    play1ready = None
-    play2Name.place(x = 0, y = 0)
-    play2Name = None
-    play2ready.place(x = 0, y = 0)
-    play2ready= None
-    userName1.place(x = 0, y = 0)
-    userName1 = None
-    userName2.place(x = 0, y = 0)
-    userName2 = None
-    randomtrun.place(x = 0, y = 0)
-    randomtrun = None
-    playerturn1.place(x = 0, y = 0)
-    playerturn1 = None
-    playerturn2.place(x = 0, y = 0)
-    playerturn2 = None
-    playTurn.place(x = 0, y = 0)
-    playTurn= None
-
+    back_button() # Button that goes to main screen
+    backButton.grid(row=5, column=1, sticky="nsew", padx=5, pady=5) # Places the button in the midly but lower
 "                 Player vs Computer starts here                "  
 
 board = [" " for _ in range(9)] #just a for loop to build the buttons for the game board
@@ -421,6 +426,7 @@ def start_pvc_game(selected_difficulty, first_turn):
     if current_turn == "Computer": 
         root.after(500, easyMode if difficulty == "Easy" else hardMode)
         #If it was the computers turn first there would be a delay of 500 miliseconds before it starts due to a bug where sometimes the computer would just not play at all and the you would be stuck there
+
 def open_game_board(): #This is just the UI of the playing board
     for widget in root.winfo_children():
         widget.destroy()
@@ -434,7 +440,7 @@ def open_game_board(): #This is just the UI of the playing board
 
     for i in range(9): #This is the playing board itsself
         button = Button(root, text=" ", font=("Arial", 24), width=5, height=2,
-                        command=lambda i=i: player_move(i), fg="Black") 
+                        command=lambda i=i: player_move(i), fg = textColour) 
         button.grid(row=i // 3, column=i % 3, sticky="nsew")
         buttons.append(button)
     
@@ -443,26 +449,28 @@ def open_game_board(): #This is just the UI of the playing board
     update_turnLabel()
 
 def choose_first_turn():
+    global textColour
     for widget in root.winfo_children():
         widget.destroy()
 
-    Label(root, text="Who will go first?", font=("Arial", 18)).pack(pady=20) #Just a text 
+    Label(root, text="Who will go first?", font=("Arial", 18), fg = textColour).pack(pady=20) #Just a text 
 
-    Button(root, text="Player First", font=("Arial", 12), command=lambda: start_pvc_game(difficulty, "Player")).pack(pady=10) #When either one of these buttons are clicked the start_pvc_game function is called with the difficulty you have chosen from the previous screen
-    Button(root, text="Computer First", font=("Arial", 12), command=lambda: start_pvc_game(difficulty, "Computer")).pack(pady=10)
+    Button(root, text="Player First", font=("Arial", 12), command=lambda: start_pvc_game(difficulty, "Player"), fg = textColour).pack(pady=10) #When either one of these buttons are clicked the start_pvc_game function is called with the difficulty you have chosen from the previous screen
+    Button(root, text="Computer First", font=("Arial", 12), command=lambda: start_pvc_game(difficulty, "Computer"), fg = textColour).pack(pady=10)
 
-    Button(root, text="Back to Difficulty Selection", font=("Arial", 10), command=open_PvC_screen).pack(pady=20) #Takes you to the previous screen
+    Button(root, text="Back to Difficulty Selection", font=("Arial", 10), command=open_PvC_screen, fg = textColour).pack(pady=20) #Takes you to the previous screen
 
 def open_PvC_screen(): #This is your initial choice between picking the easy or the hard mode, basically just a UI 
+    global textColour
     for widget in root.winfo_children():
         widget.destroy()
 
-    Label(root, text="Please pick Difficulty", font=("Arial", 18)).pack(pady=10)
+    Label(root, text="Please pick Difficulty", font=("Arial", 18), fg = textColour).pack(pady=10)
 
-    Button(root, text="Easy Mode", font=("Arial", 12), command=lambda: set_difficulty_and_choose_turn("Easy")).pack(pady=5) #Calls the set difficulty function with your chosen difficulty
-    Button(root, text="Hard Mode", font=("Arial", 12), command=lambda: set_difficulty_and_choose_turn("Hard")).pack(pady=5)
+    Button(root, text="Easy Mode", font=("Arial", 12), command=lambda: set_difficulty_and_choose_turn("Easy"), fg = textColour).pack(pady=5) #Calls the set difficulty function with your chosen difficulty
+    Button(root, text="Hard Mode", font=("Arial", 12), command=lambda: set_difficulty_and_choose_turn("Hard"), fg = textColour).pack(pady=5)
 
-    Button(root, text="Return to Main Menu", font=("Arial", 10), command=open_main_menu).pack(pady=20)
+    Button(root, text="Return to Main Menu", font=("Arial", 10), command=open_main_menu, fg = textColour).pack(pady=20)
 
 def set_difficulty_and_choose_turn(selected_difficulty):
     global difficulty
@@ -470,6 +478,9 @@ def set_difficulty_and_choose_turn(selected_difficulty):
     choose_first_turn()
 
 def open_main_menu():
+    
+    global buttonFrame, textColour
+
     for widget in root.winfo_children():
         widget.destroy()
     
@@ -479,7 +490,9 @@ def open_main_menu():
 
     reset_game_state()
 
-    title_screen = Label(root, text="TIC TAC TOE", height=5, font=("arial", 18))
+    root.title("Tic Tac Toe") # Sets the title of window to "Tic Tac Toe"
+
+    title_screen = Label(root, text="TIC TAC TOE", height=5, font=("arial", 18), fg = textColour)
     title_screen.pack(fill="both", expand=True)
 
     buttonFrame = Frame(root)
@@ -487,22 +500,136 @@ def open_main_menu():
     buttonFrame.columnconfigure(1, weight=1)
     buttonFrame.columnconfigure(2, weight=1)
 
-    PvP_button = Button(buttonFrame, text="Player vs Player", command=open_PvP_screen)
+    PvP_button = Button(buttonFrame, text="Player vs Player", command=open_PvP_screen, fg = textColour)
     PvP_button.grid(row=0, column=1, sticky="NESW")
-    divider1 = Label(buttonFrame)
+    divider1 = Label(buttonFrame, fg = textColour)
     divider1.grid(row=1, column=1, sticky="NESW")
-    PvC_button = Button(buttonFrame, text="Player vs Computer", command=open_PvC_screen)
+    PvC_button = Button(buttonFrame, text="Player vs Computer", command=open_PvC_screen, fg = textColour)
     PvC_button.grid(row=2, column=1, sticky="NESW")
-    divider2 = Label(buttonFrame)
+    divider2 = Label(buttonFrame, fg = textColour)
     divider2.grid(row=3, column=1, sticky="NESW")
-    settingsBtn = Button(buttonFrame, text="Settings", command=open_settings)
+    settingsBtn = Button(buttonFrame, text="Settings", command=open_settings, fg = textColour)
     settingsBtn.grid(row=4, column=1, sticky="NESW")
 
     buttonFrame.pack(expand=True, fill="both")
 
+def open_settings(): 
+    """Open an meun where play can change the size of window and colour for text, background"""
+    global backButton
+
+    for widget in root.winfo_children(): # Remove all the current widgets on the screen
+        widget.destroy()
+     
+    for i in range(5): # Configure 4 columns and 2 rows to have weight of 1
+        root.grid_rowconfigure(i, weight=1) 
+        if i < 3:
+                root.grid_columnconfigure(i, weight=1)
+
+    textwindowsetting = Label(root, text="Window setting",font=24, fg = textColour) # Text "Window setting"
+    textwindowsetting.grid(row = 0, column= 1, sticky="NESW") # The text is placed in the midly top
+    
+    getwinHeight = root.winfo_height() # Gets the current window height
+    getwinWidth = root.winfo_width()# Gets the current window width
+
+
+    setwinWidth = Entry(root, fg = textColour) # Input box for new width for window 
+    setwinWidth.grid(row=1, column=0, padx=10, pady=10) # sets the box in row 1 and column 0 so all the wight for user name can be in a line 
+    setwinWidth.insert(0,str(getwinWidth)) # Shows the current width of the window
+
+    setwinHeight = Entry(root, fg = textColour) # Input box for new height for window 
+    setwinHeight.grid(row=1, column=2, padx=10, pady=10) # sets the box in row 1 and column 2 so all the wight for user name can be in a line
+    setwinHeight.insert(0,str(getwinHeight)) # Shows the current height of the window
+
+    setwinSize = Button(root, text="Set Window Size", command= lambda: chagnewinSize(setwinWidth.get(),setwinHeight.get()), fg = textColour) # When the user wnats to chagne the of the window it takes The sizee in "setwinWidth" and "setwinHeight" is pass to "chagnewinSize(width,height)"
+    setwinSize.grid(row=2, column=1, padx=10, pady=10, ) # sets the box in row 2 and column 1 
+
+    changecolour = Button(root, text="Chagne Colours", command= winchangecolour, fg = textColour) # Open an meun of colour choice
+    changecolour.grid(row=3, column=1, padx=10, pady=10, ) # sets the box in row 2 and column 1 
+    
+    back_button() # Button for going to back to main meun
+    backButton.grid(row = 4, column=1) # Sets the button "backButton" on the lest row
+
+def chagnewinSize(width,height):
+    """ Tacks the width and the height givean by "open_setting", set the new window size"""
+    size = str(width) + "x" + str(height) # Turns width and height into input that works for tkinter
+    
+    root.geometry(size) # Set new window size
+
+def winchangecolour():
+    """ A meun where player can change the colour for text and background"""
+    global backButton, textColour
+
+    for widget in root.winfo_children(): # Remove all the current widgets on the screen
+        widget.destroy()
+
+    colorBank = ["white", "black", "red",    "green", "blue", "cyan",    "yellow", "magenta", "gray"] # Colour choice
+    
+    for i in range(9): # Configure 8 columns and 8 rows to have weight of 1
+        root.grid_columnconfigure(i, weight=1)
+        root.grid_rowconfigure(i, weight=1)
+    
+    root.title("Colour setting") # Sets the title of window to "Colour setting"
+
+    textwinColoursetting = Label(root, text="Colour setting",font=24, fg = textColour) # sets a text "Colour setting"
+    textwinColoursetting.grid(row = 1, column= 4, sticky="NESW") # sets the text "Colour setting" in the midly top
+
+    textwinTextcolour = Label(root, text="Text colour", fg = textColour) # sets a text "Text colour"
+    textwinTextcolour.grid(row = 2, column= 4, sticky="NESW") # sets the text "Text colour" in the midly and in row 2
+    
+    
+    textWhite = Button(root, bg="white", width=5, padx=2, pady=0, fg = textColour, command= lambda: chagneColour("text","white")) # Button for changing the text color to white
+    textBlack = Button(root, bg="black", width=5, padx=2, pady=0, fg = textColour, command= lambda: chagneColour("text","black")) # Button for changing the text color to black
+    textRed = Button(root, bg="red", width=5, padx=2, pady=0, fg = textColour, command= lambda: chagneColour("text","red")) # Button for changing the text color to red
+
+    textGreen = Button(root, bg="green", width=5, padx=2, pady=0, fg = textColour, command= lambda: chagneColour("text","green")) # Button for changing the text color to green
+    textBlue = Button(root, bg="blue", width=5, padx=2, pady=0, fg = textColour, command= lambda: chagneColour("text","blue")) # Button for changing the text color to blue
+    textCyan = Button(root, bg="cyan", width=5, padx=2, pady=0, fg = textColour, command= lambda: chagneColour("text","cyan")) # Button for changing the text color to cyan
+
+    textYellow = Button(root, bg="yellow", width=5, padx=2, pady=0, fg = textColour, command= lambda: chagneColour("text","yellow")) # Button for changing the text color to yellow
+    textMagenta = Button(root, bg="magenta", width=5, padx=2, pady=0, fg = textColour, command= lambda: chagneColour("text","magenta")) # Button for changing the text color to magenta
+    textgray = Button(root, bg="gray", width=5, padx=2, pady=0, fg = textColour, command= lambda: chagneColour("text","gray")) # Button for changing the text color to gray
+
+
+    textColourlist = [textWhite, textBlack, textRed, textGreen, textBlue, textCyan, textYellow, textMagenta, textgray] # List of button that are usd for chagning colour of text
+
+    for i in range(9):
+        textColourlist[i].grid(row=3, column=i) # sets the buttons in a line on row 3
+
+
+    textwinBackgroundcolour = Label(root, text="Background colour", fg = textColour) # Sets a text "Background colour"
+    textwinBackgroundcolour.grid(row = 4, column= 4, sticky="NESW") # Puts the text in the midly 
+    
+    
+    bgWhite = Button(root, bg="white", width=5, padx=2, pady=0, command= lambda: chagneColour("bg","white"), fg = textColour) # Button for changing the background color to white
+    bgBlack = Button(root, bg="black", width=5, padx=2, pady=0, command= lambda: chagneColour("bg","black"), fg = textColour) # Button for changing the background color to black
+    bgRed = Button(root, bg="red", width=5, padx=2, pady=0, command= lambda: chagneColour("bg","red"), fg = textColour) # Button for changing the background color to red
+
+    bgGreen = Button(root, bg="green", width=5, padx=2, pady=0, command= lambda: chagneColour("bg","green"), fg = textColour) # Button for changing the background color to green
+    bgBlue = Button(root, bg="blue", width=5, padx=2, pady=0, command= lambda: chagneColour("bg","blue"), fg = textColour) # Button for changing the background color to blue
+    bgCyan = Button(root, bg="cyan", width=5, padx=2, pady=0, command= lambda: chagneColour("bg","cyan"), fg = textColour) # Button for changing the background color to cyan
+
+    bgYellow = Button(root, bg="yellow", width=5, padx=2, pady=0, command= lambda: chagneColour("bg","yellow"), fg = textColour) # Button for changing the background color to yellow
+    bgMagenta = Button(root, bg="magenta", width=5, padx=2, pady=0, command= lambda: chagneColour("bg","magenta"), fg = textColour) # Button for changing the background color to magenta
+    bggray = Button(root, bg="gray", width=5, padx=2, pady=0, command= lambda: chagneColour("bg","gray"), fg = textColour) # Button for changing the background color to gray
+
+    bgColourlist = [bgWhite, bgBlack, bgRed, bgGreen, bgBlue, bgCyan, bgYellow, bgMagenta, bggray] # List of button that are usd for chagning colour of background
+
+    for i in range(9):
+        bgColourlist[i].grid(row=5, column=i) # sets the buttons in a line on row 5
+
+    back_button() # Button for going to back to main meun
+    backButton.grid(row = 6, column=4) # Sets the button "backButton" on the lest row
+
+def chagneColour(type,colour):
+    """Changes the colour given by "colour" and to the what is it beening applyed to by "type" """
+    global textColour
+    if type == "text":
+        textColour = colour # sets the colour for text to "colour"
+    elif type == "bg":
+        root.config(bg=colour) # sets the colour for background to "colour"
+        
 root = Tk()
 root.geometry("500x500")
-root.title("Tic Tac Toe")
 #root.iconbitmap("laggames\logo.png")
 
 open_main_menu()
