@@ -96,7 +96,9 @@ def ready(player, userName):
         play2Name.config(state="disabled", fg=textColour, bg=backGround, highlightbackground=highLight) # Disables the entry
         play2ready.config(state="disabled", fg=textColour, bg=backGround, highlightbackground=highLight) # Disables the button "Ready"
         statusPlayer2 = True # Sets the status of player 2 to ready
-    
+   
+    back_button() # Button that goes to the main screen
+
     if statusPlayer1 and statusPlayer2:
         for widget in root.winfo_children(): # Remove all the current widgets on the screen
             widget.destroy()
@@ -115,13 +117,15 @@ def ready(player, userName):
         playerturn2.grid(row=2, column=2, padx=10, pady=10) # Places the button to the right
 
         randomtrun = Button(root, text="Random", command=lambda: trunXorO("Random"), fg=textColour, bg=backGround, highlightbackground=highLight) # Random button to pick who goes first
-        randomtrun.grid(row=3, column=1, padx=10, pady=10) # Places the button in the middle
+        randomtrun.grid(row=3, column=1, padx=10, pady=10) # Places the button in the middle        
 
-    back_button() # Button that goes to the main screen
+        back_button()
+    
+    
 
 def trunXorO(player):
     """Shows who is "X" and "O"."""
-    global playerturn1, playerturn2, randomtrun, userName1, userName2, textColour, backGround, highLight
+    global playerturn1, playerturn2, randomtrun, userName1, userName2, textColour, backGround, highLight, backButton
 
     playerturn1.config(state="disabled", fg=textColour, bg=backGround, highlightbackground=highLight) # Disables the button
     playerturn2.config(state="disabled", fg=textColour, bg=backGround, highlightbackground=highLight) # Disables the button
@@ -149,6 +153,7 @@ def trunXorO(player):
     randomXorO = Button(root, text="Random", command=lambda: PvP_Game(firstplayer.cget("text"), "Random"), fg=textColour, bg=backGround, highlightbackground=highLight) # Button if the player wants to be "X" or "O" randomly
     randomXorO.grid(row=7, column=1, padx=10, pady=10) # Places the button in the middle
 
+    backButton.grid(row = 8, column= 1)
 def PvP_Game(player, xoro):
     """The Game Tic Tac Toe"""
     global userName1, userName2, playTurn, lst, turnsPlayed, textColour, backGround, highLight
