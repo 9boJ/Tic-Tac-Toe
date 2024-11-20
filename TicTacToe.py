@@ -1,3 +1,4 @@
+""" This project is done by Hussain Ali and Jatin Bahagat"""
 from tkinter import * 
 from random import *
 
@@ -306,7 +307,7 @@ def winer(player):
 
 
 "                 Player vs Computer starts here                "  
-board = [" " for _ in range(9)]  # Just a for loop to build the buttons for the game board
+board = [" " for i in range(9)]  # Just a for loop to build the buttons for the game board
 buttons = []  # This is to update the button text and to also disable them afterward
 current_turn = "Player"  # Tracks whose turn it is
 difficulty = None  # This is just a global variable that is used to set the difficulty
@@ -314,7 +315,7 @@ turnLabel = None  # This is also a global variable just to display whose turn it
 
 def reset_game_state():  # This is for resetting the game
     global board, buttons, current_turn, difficulty, turnLabel
-    board = [" " for _ in range(9)]  # Resetting the board to its initial state
+    board = [" " for i in range(9)]  # Resetting the board to its initial state
     buttons = []  # When resetting the board, we also reset our buttons
     current_turn = "Player"  # Reset the current player's turn to whoever is playing
     difficulty = None  # Reset the difficulty to nothing; automatically changes to the chosen difficulty
@@ -421,7 +422,7 @@ def end_game(result_text):
 
 def reset_board():
     global board, current_turn
-    board = [" " for _ in range(9)]  # Resets the board
+    board = [" " for i in range(9)]  # Resets the board
     current_turn = "Player"  # Resets turn to the player
     for button in buttons:
         button.config(text=" ", state="normal", bg=backGround, fg=textColour, highlightbackground=highLight)
@@ -579,7 +580,7 @@ def open_main_menu():
 root = Tk()
 root.geometry("500x500")
 root.title("Tic Tac Toe")
-# root.iconbitmap("laggames/logo.png")
+root.configure(background=backGround)
 
 open_main_menu()
 
